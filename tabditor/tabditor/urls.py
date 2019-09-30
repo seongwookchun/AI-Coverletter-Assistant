@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path, re_path
-from . import views
+from main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('', views.home, name='home'),
-    path('main/', include('main.urls')),
+    # path('main/', include('main.urls')),
 ]

@@ -15,7 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+print('hello ! BASE DIR is :')
+print(BASE_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -31,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'tabditor',
+    'main',
     # 'main.apps.mainConfig'
     'django.contrib.admin',
     'django.contrib.auth',
@@ -120,11 +121,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    )
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 # MEDIA_ROOT = u'/home/chun384/mysite/media'
-MEDIA_URL = '/media/'
-STATIC_ROOT = u'/home/chun384/mysite/static'
-STATIC_URL = '/static/'
+# MEDIA_URL = '/media/'
+# STATIC_ROOT = u'/home/chun384/mysite/static'
+# STATIC_URL = '/static/'
