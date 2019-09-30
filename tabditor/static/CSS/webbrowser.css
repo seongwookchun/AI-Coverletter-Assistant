@@ -1,0 +1,98 @@
+
+*{
+	margin:0 auto;
+	/*margin:0vw auto;*/
+	/*color: #B4BCDE;*/
+	/*border: solid 1px white;*/
+	text-align: center;
+	
+	box-sizing: border-box;
+	font-style: italic;
+	padding: 2px;
+	border: solid white 2px;
+}
+
+body{
+	height:100vh;
+	width:100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: #293340;
+}	
+
+div {
+	
+}
+
+#wrapper {
+/*	width: 800px;
+	height: 200px;*/
+/*	width: 100%;
+	height: 100%;*/
+	/*background-color: #010101;*/
+	/*position: relative;*/
+	/*float: left;*/
+}
+
+#top {
+	/*width: 50%;*/
+	/*height: 25vh;*/
+	background-color: #056678;
+	/*position: relative;*/
+	/*float: left;*/
+}
+
+#nav {
+	/*width: 50%;*/
+	/*height: 50%;*/
+	background-color: #786650;
+	/*position: relative;*/
+	/*float: left;*/
+}
+
+#content {
+	/*border: dashed 3px red;*/
+	/*height: 100%;*/
+	height: 70vh;
+	background-color: lightblue;
+}
+
+#content_title {
+	background-color: gray;
+	/*height: 50vh;*/
+	height: 15%;
+}
+
+#content_main_side{
+	/*width: 100%;*/
+	/*position: relative;*/
+	height: 85%;
+}
+#content_main {
+	background-color: pink;
+	float: right;
+	width: 75%;
+	/*position: relative;*/
+	/*height: 50vh;*/
+	height: 100%;
+
+}
+#content_side {
+	background-color: #563637;
+	float: right;
+	width: 25%;
+	/*position: relative;*/
+	/*height: 50vh;*/
+	height: 100%;
+
+}
+
+
+#footer_side {
+	background-color: pink;
+	/*float: left;*/
+
+}
+#mode_mobile {
+	display: none;	
+}
