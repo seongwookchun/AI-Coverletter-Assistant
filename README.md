@@ -22,3 +22,6 @@ Tab and get the word !
 팀 구성 : 박승근, 송윤호, 천성욱<br>
 todolist 1. 각자 word2vec(https://wikidocs.net/22660)의 코드 공부 및 자소서 글을 샘플로해서, <br>
 	좋은 성능의 단어를 추천해주는지 성능 평가하기.
+
+>>> paraphrasing. 유의어. 추천. 
+>>> 금융, 자기소개서 데이터 수집하기.
