@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Tabditor</h1>
+    <hr>
+    <a href="./5"><button>pass param</button></a>
+        {% for i in k_var_01 %}
+
+
+        {{ i }}
+        hi
+        {% endfor %}
+        
+    <div id="wrap">
+        <div id="t_header" class="wrapper">
+            <div id="tt_header" class="t_title">
+                t_header title
+            </div>
+            <div id="tt_header" class="m_content">
+                t_header content
+            </div>
+        </div>
+        <div id="wm_middle" class="wrapper">
+        <!-- wm : wrapper-middle -->
+            <div id="l_menu" class="wrapper">
+                <div id="ll_menu" class="t_title">
+                    l-menu title
+                </div>
+                <div id="ll_menu" class="m_content">
+                    l-menu content
+                </div>
+            </div>
+            <div id="m_panel" class="wrapper">
+                <div id="mm_panel" class="t_title">
+                    m_panel title<br>
+                    <a href="/rhyme/경험">
+                        <button>rhyme 경험</button>&nbsp;&nbsp;&nbsp;
+                    </a>
+                    <a href="/rhyme/열정">
+                        <button>rhyme 열정</button>
+                    </a>
+                    <a href="/rhyme/최선">
+                        <button>rhyme 최선</button>
+                    </a>
+                    <a href="/rhyme/도전">
+                        <button>rhyme 도전</button>
+                    </a><br>
+                </div>
+                <div id="mm_panel" class="m_content">
+                    m_panel content<br>
+                    <a href="의자">
+                        <button>decompose 의자</button>&nbsp;&nbsp;&nbsp;
+                    </a>
+                    <a href="구름">
+                        <button>decompose 구름</button>
+                    </a>
+                    <a href="바다">
+                        <button>decompose 바다</button>
+                    </a>
+                    <a href="석양">
+                        <button>decompose 석양</button>
+                    </a><br>
+                    <textarea name="text_name" id="e_m_panel" oninput="hi()"></textarea>
+                    <a href="func03/">func03 호출</a>
+                    <!-- e_m_panel : element of wrapper class division, m_panel -->
+                </div>
+            </div>
+            <div id="r_display" class="wrapper">
+                <div id="rr_display" class="t_title">
+                    r-display title
+                </div>
+                <div id="rr_display" class="m_content">
+                    <button onclick="clear_output()">clear</button>
+                    </a>
+                    r-display content<br>
+                    <div id="rrr_img">
+                    
+                    
+                    {{ k_vwvar_20 }}<br>
+                    {% for item in k_vwvar_rhyme_01 %}
+                    <!-- {{ k_vwvar_rhyme_01 }}<br> -->
+                    {{ item }}<br>
+                    {% endfor %}
+                </div>
+                <div id="rr_display_ref" class="m_content">
+                    <button onclick="clear_output()">clear</button>
+                    </a>
+                    r-display content<br>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        <div id="b_footer" class="wrapper">
+            <div id="bb_footer" class="t_title">
+                b_footer title ggggggggg
+                {{ k_vwvar_func03 }}
+            </div>
+            <div id="bb_footer" class="m_content">
+                b_footer content
+                
+            </div>
+        </div>
+    </div>
+    <script>
+    // var slides = ["slide 1", "slide 2", "slide 3", "slide 4", "slide 5"]
+    // var str = ''
+
+    // slides.forEach(function(slide) {
+    // str += '<option value="'+slide+'">'+ slide + '</option>';
+    // }); 
+    // console.log(str);    // F12 console에서 내용을 출력한다.
+
+    // document.getElementById("e_m_panel").innerHTML = str;
+    function hi() {
+        console.log('hi');
+        // document.getElementById("bb_footer").innerHTML = 'hi';
+        var str = document.querySelector("#e_m_panel").value;
+        if (str.slice(-1) == ' '){
+            str = str.split().slice(-1);
+            document.querySelector(".m_content#rr_display").innerHTML += str + '<br>';
+            return 0;
+        }
+        else if (str.slice(-1) == '\n'){
+            document.querySelector(".m_content#rr_display").innerHTML += '<br>';
+            console.log(document.querySelector(".m_content#rr_display").innerHTML);
+        }
+
+    }
+
+    function clear_output() {
+        document.querySelector(".m_content#rr_display").innerHTML = 
+        document.querySelector(".m_content#rr_display_ref").innerHTML;
+    }
+    </script>
+{% endblock content %}
