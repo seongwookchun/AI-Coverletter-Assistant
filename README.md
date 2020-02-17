@@ -1,4 +1,4 @@
-# tabditor - get the idea
+# AI-Coverletter-Assistant - Just tab and get words !
 Just give some letters and press the tab then get the full sentence.
 Tab and get the word !
 
@@ -27,8 +27,7 @@ todolist 1. 각자 word2vec(https://wikidocs.net/22660)의 코드 공부 및 자
 >>> 금융, 자기소개서 데이터 수집하기.
 
 
-# Private repository for Tabditor
 
 ## 19.11.15.(금)
 
-- Tabditor의 기능이 많아지고, 소스코드 및 여러 버전이 생겨나기 시작하고 있어서, 효과적인 관리를 위하여 github 도입 고려 중.
+- 프로젝트에 기능이 많아지고, 소스코드 및 여러 버전이 생겨나기 시작하고 있어서, 효과적인 관리를 위하여 github 도입 고려 중.
