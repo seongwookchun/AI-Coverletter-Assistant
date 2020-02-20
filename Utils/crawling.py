@@ -15,7 +15,7 @@ def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx'
     # url = jobkorea url 입력
     # start_page = 시작 페이지
     # end_page = 종료 페이지
-    
+    global path = path
     url_lists = []
 
     for i in range(start_page,end_page):
