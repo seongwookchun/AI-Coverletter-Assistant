@@ -6,6 +6,7 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, Dense, SimpleRNN, LSTM
 
+
 def text_preprocessing(filepath):
     with open(filepath, 'r') as f:    # text는 \n 개행문자로 문장이 구분되어 있는 텍스트 파일이다.
         text = f.read()
@@ -46,6 +47,7 @@ def text_preprocessing(filepath):
     y = sequences[:,-1]
     y = to_categorical(y, num_classes=vocab_size)
     print('x_train, y_train are created.')
+    return X, y
 # y[:3]
 # >>> array([[0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
 #       [0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
