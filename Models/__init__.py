@@ -1,4 +1,4 @@
 print('Models module is initialized')
 
-import .model_seq2seq_lstm
-import .text_generation_lstm
+from . import model_seq2seq_lstm
+from . import text_generation_lstm
