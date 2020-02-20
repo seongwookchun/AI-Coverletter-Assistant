@@ -44,7 +44,7 @@ def signal_handler(signal,frame):
 
 def qus_ans(url_lists,qus_tag,ans_tag,path):
     # 크롤링한 데이터를 질문과 답변으로 나눠서 csv로 저장
-    pat = re.compile('<span[\sa-zA-Z0-9="]*>[가-R\sa-zA-Z0-9<>\/,]+<\/span>')
+    pat = re.compile('<span[\sa-zA-Z0-9="]*>[가-힣\sa-zA-Z0-9<>\/,]+<\/span>')
     parser = 'html.parser'
     signal.signal(signal.SIGINT, signal_handler)
 
