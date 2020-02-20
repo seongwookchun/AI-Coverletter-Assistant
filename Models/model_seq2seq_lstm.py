@@ -1,4 +1,3 @@
-# 병렬 코퍼스 읽어오기
 import pandas as pd
 import numpy as np
 
@@ -6,6 +5,14 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.utils import to_categorical
 
+from tensorflow.keras.layers import Input, LSTM, Embedding, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.utils import to_categorical
+
+from keras.models import Sequential
+from keras.layers import Embedding
+
+# 병렬 코퍼스 읽어오기
 lines= pd.read_csv('/content/drive/My Drive/tabditor/FromZero/modeling/seq2seq/kor.txt', names=['src', 'tar'], sep='\t', index_col=False)
 display(lines)
 len(lines)
@@ -46,8 +53,7 @@ y_train = pad_sequences(y_train, maxlen=max_len_ko)
 y_train
 
 # modeling
-from tensorflow.keras.layers import Input, LSTM, Embedding, Dense
-from tensorflow.keras.models import Model
+
 
 encoder_inputs = Input(shape=(None, vocab_size_en))
 encoder_lstm = LSTM(units=256, return_state=True)    # return_state ?
@@ -68,7 +74,6 @@ model.compile(optimizer="rmsprop", loss="categorical_crossentropy")
 
 model.fit(x=[encoder_input, decoder_input], y=decoder_target, batch_size=64, epochs=50, validation_split=0.2)
 
-from tensorflow.keras.utils import to_categorical
 encoder_input = to_categorical(x_train, num_classes=vocab_size_en)
 decoder_input = to_categorical(y_train, num_classes=vocab_size_ko)
 decoder_target = to_categorical(y_train, num_classes=vocab_size_ko)
@@ -77,8 +82,6 @@ encoder_input = x_train
 decoder_input = y_train
 decoder_target = y_train
 
-from keras.models import Sequential
-from keras.layers import Embedding
 
 model_embedding_en = Sequential()
 e_en = Embedding(vocab_size_en, 10, input_length=max_len_en)
