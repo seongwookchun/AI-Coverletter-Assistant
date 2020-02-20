@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -10,10 +11,10 @@ answer_list = []
 question_list = []
 
 def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx',ans_tag='dl.qnaLists dd div.tx'): 
-    # 1 page ´ç 20°ÇÀÇ ÀÚ¼Ò¼­°¡ Á¸Àç 
-    # url = jobkorea url ÀÔ·Â
-    # start_page = ½ÃÀÛ ÆäÀÌÁö
-    # end_page = Á¾·á ÆäÀÌÁö
+    # 1 page ë‹¹ 20ê±´ì˜ ìì†Œì„œê°€ ì¡´ì¬ 
+    # url = jobkorea url ì…ë ¥
+    # start_page = ì‹œì‘ í˜ì´ì§€
+    # end_page = ì¢…ë£Œ í˜ì´ì§€
     
     url_lists = []
 
@@ -33,7 +34,7 @@ def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx'
 
 
 def signal_handler(signal,frame):
-    #Áß°£¿¡ ÁßÁö¸í·ÉÀ» ³»¸± ½Ã, ÀÛ¾÷ÁßÀÌ´ø µ¥ÀÌÅÍ¸¦ ÀúÀå
+    #ì¤‘ê°„ì— ì¤‘ì§€ëª…ë ¹ì„ ë‚´ë¦´ ì‹œ, ì‘ì—…ì¤‘ì´ë˜ ë°ì´í„°ë¥¼ ì €ì¥
     df = pd.DataFrame(question_list,columns=['qus'])
     df['ans'] = answer_list     
     df.to_csv(path)
@@ -42,8 +43,8 @@ def signal_handler(signal,frame):
 
 
 def qus_ans(url_lists,qus_tag,ans_tag,path):
-    # Å©·Ñ¸µÇÑ µ¥ÀÌÅÍ¸¦ Áú¹®°ú ´äº¯À¸·Î ³ª´²¼­ csv·Î ÀúÀå
-    pat = re.compile('<span[\sa-zA-Z0-9="]*>[°¡-ÆR\sa-zA-Z0-9<>\/,]+<\/span>')
+    # í¬ë¡¤ë§í•œ ë°ì´í„°ë¥¼ ì§ˆë¬¸ê³¼ ë‹µë³€ìœ¼ë¡œ ë‚˜ëˆ ì„œ csvë¡œ ì €ì¥
+    pat = re.compile('<span[\sa-zA-Z0-9="]*>[ê°€-R\sa-zA-Z0-9<>\/,]+<\/span>')
     parser = 'html.parser'
     signal.signal(signal.SIGINT, signal_handler)
 
