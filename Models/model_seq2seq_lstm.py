@@ -1,5 +1,11 @@
 # 병렬 코퍼스 읽어오기
 import pandas as pd
+import numpy as np
+
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.utils import to_categorical
+
 lines= pd.read_csv('/content/drive/My Drive/tabditor/FromZero/modeling/seq2seq/kor.txt', names=['src', 'tar'], sep='\t', index_col=False)
 display(lines)
 len(lines)
@@ -7,10 +13,6 @@ len(lines)
 x_train = lines['src'].values
 x_train
 
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-import numpy as np
-from tensorflow.keras.utils import to_categorical
 
 t_en = Tokenizer()
 t_en.fit_on_texts(x_train)
