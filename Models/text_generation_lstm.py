@@ -1,3 +1,4 @@
+from time import time
 import numpy as np
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -23,14 +24,16 @@ def text_preprocessing(filepath):
     print('단어 집합의 크기 : %d' % vocab_size)
     
     sequences = list()
+    time_i = time()
     for line in text.split('\n'): # Wn을 기준으로 문장 단위로 샘플 구성
         encoded = t.texts_to_sequences([line])[0]
         for i in range(1, len(encoded)):
             sequence = encoded[:i+1]
-            print(i)
-            print(sequence)
+#             print(i)
+#             print(sequence)
             sequences.append(np.array(sequence))
-
+    print('Sliding is done.')
+    print('Time elapsed:', time() - time_i)
     print('학습에 사용할 문장의 개수: %d' % len(sequences))
 
     max_len = max([len(seq) for seq in sequences])
