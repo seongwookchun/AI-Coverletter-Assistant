@@ -15,7 +15,8 @@ def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx'
     # url = jobkorea url 입력
     # start_page = 시작 페이지
     # end_page = 종료 페이지
-    global path = path
+    global path_ 
+    path_= path
     url_lists = []
 
     for i in range(start_page,end_page):
@@ -29,7 +30,7 @@ def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx'
         for j in a:
             url_lists.append('http://www.jobkorea.co.kr'+j.find('a').attrs['href'])
 
-    return qus_ans(url_lists,qus_tag,ans_tag,path)
+    return qus_ans(url_lists,qus_tag,ans_tag,path_)
 
 
 
@@ -37,7 +38,7 @@ def signal_handler(signal,frame):
     #중간에 중지명령을 내릴 시, 작업중이던 데이터를 저장
     df = pd.DataFrame(question_list,columns=['qus'])
     df['ans'] = answer_list     
-    df.to_csv(path)
+    df.to_csv(path_)
     print('Last operation before end of the program', '*'*100)
     sys.exit(0)
 
@@ -64,7 +65,7 @@ def qus_ans(url_lists,qus_tag,ans_tag,path):
  
     df = pd.DataFrame(question_list,columns=['qus'])
     df['ans'] = answer_list     
-    df.to_csv(path)
+    df.to_csv(path_)
 
     return  df
 
