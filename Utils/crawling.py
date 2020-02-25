@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -11,10 +12,10 @@ answer_list = []
 question_list = []
 
 def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx',ans_tag='dl.qnaLists dd div.tx'): 
-    # 1 page ´ç 20°ÇÀÇ ÀÚ¼Ò¼­°¡ Á¸Àç 
-    # url = jobkorea url ÀÔ·Â
-    # start_page = ½ÃÀÛ ÆäÀÌÁö
-    # end_page = Á¾·á ÆäÀÌÁö
+    # 1 page ë‹¹ 20ê±´ì˜ ìì†Œì„œê°€ ì¡´ì¬ 
+    # url = jobkorea url ì…ë ¥
+    # start_page = ì‹œì‘ í˜ì´ì§€
+    # end_page = ì¢…ë£Œ í˜ì´ì§€
     
     url_lists = []
 
@@ -34,7 +35,7 @@ def jobkorea_crawling(start_page,end_page,url,path,qus_tag='dl.qnaLists span.tx'
 
 
 def signal_handler(signal,frame):
-    #Áß°£¿¡ ÁßÁö¸í·ÉÀ» ³»¸± ½Ã, ÀÛ¾÷ÁßÀÌ´ø µ¥ÀÌÅÍ¸¦ ÀúÀå
+    #ì¤‘ê°„ì— ì¤‘ì§€ëª…ë ¹ì„ ë‚´ë¦´ ì‹œ, ì‘ì—…ì¤‘ì´ë˜ ë°ì´í„°ë¥¼ ì €ì¥
     df = pd.DataFrame(question_list,columns=['qus'])
     df['ans'] = answer_list     
     df.to_csv(path)
@@ -43,8 +44,8 @@ def signal_handler(signal,frame):
 
 
 def qus_ans(url_lists,qus_tag,ans_tag,path):
-    # Å©·Ñ¸µÇÑ µ¥ÀÌÅÍ¸¦ Áú¹®°ú ´äº¯À¸·Î ³ª´²¼­ csv·Î ÀúÀå
-    pat = re.compile('<span[\sa-zA-Z0-9="]*>[°¡-ÆR\sa-zA-Z0-9<>\/,]+<\/span>')
+    # í¬ë¡¤ë§í•œ ë°ì´í„°ë¥¼ ì§ˆë¬¸ê³¼ ë‹µë³€ìœ¼ë¡œ ë‚˜ëˆ ì„œ csvë¡œ ì €ì¥
+    pat = re.compile('<span[\sa-zA-Z0-9="]*>[ê°€-R\sa-zA-Z0-9<>\/,]+<\/span>')
     parser = 'html.parser'
     signal.signal(signal.SIGINT, signal_handler)
 
@@ -83,9 +84,9 @@ def url_func(selector):
         yield news_url
 
 def jtbc_news(date_start,date_end,path):
-    # date_start : ½ÃÀÛ ³¯Â¥. ÃÖ½Å ³¯Â¥ºÎÅÍ ½ÃÀÛ
-    # date_end : ³¡³ª´Â ³¯Â¥. °¡Àå ³ªÁß ³¯Â¥
-    # scode: ´º½º ±â»ç Ä«Å×°í¸® ex) ³¯¾¾,°æÁ¦ µî
+    # date_start : ì‹œì‘ ë‚ ì§œ. ìµœì‹  ë‚ ì§œë¶€í„° ì‹œì‘
+    # date_end : ëë‚˜ëŠ” ë‚ ì§œ. ê°€ì¥ ë‚˜ì¤‘ ë‚ ì§œ
+    # scode: ë‰´ìŠ¤ ê¸°ì‚¬ ì¹´í…Œê³ ë¦¬ ex) ë‚ ì”¨,ê²½ì œ ë“±
     global path2
     path2 = path
 
@@ -142,15 +143,15 @@ def jtbc_signal_handler(signal,frame):
 def title_text_split(section_url):
     signal.signal(signal.SIGINT, jtbc_signal_handler)
 
-    section_mapping = {0:'¼Óº¸',
-                       10:'Á¤Ä¡',
-                       20:'°æÁ¦',
-                       30:'»çÈ¸',
-                       40:'±¹Á¦',
-                       50:'¹®È­',
-                       60:'¿¬¿¹',
-                       70:'½ºÆ÷Ã÷',
-                       80:'³¯¾¾'
+    section_mapping = {0:'ì†ë³´',
+                       10:'ì •ì¹˜',
+                       20:'ê²½ì œ',
+                       30:'ì‚¬íšŒ',
+                       40:'êµ­ì œ',
+                       50:'ë¬¸í™”',
+                       60:'ì—°ì˜ˆ',
+                       70:'ìŠ¤í¬ì¸ ',
+                       80:'ë‚ ì”¨'
     }
 
     global title_list
