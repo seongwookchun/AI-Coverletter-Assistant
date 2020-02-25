@@ -102,7 +102,7 @@ def jtbc_news(date_start,date_end,path):
     
 
     for i in range(date_diff,-1,-1):
-        for code in range(0,10,10):
+        for code in range(0,90,10):
             datestr = (date_start-timedelta(i)).strftime('%Y%m%d')
             params = {'pdate':datestr,'scode':code}
             res = requests.get(url,params= params)
