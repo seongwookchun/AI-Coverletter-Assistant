@@ -1,46 +1,4 @@
-<<<<<<< HEAD
-import os
-import pandas as pd
-import re
-from glob import glob
-
-re_cd = re.compile('^cd\s.+')
-flag_exit = False    # int형 입력시 이중 while문 탈출용 flag
-while True:
-    print('탐색 경로:', os.path.curdir)
-    print('csv 파일을 선택하세요. 또는 cd 명령어를 사용하세요.')
-    l_csv_files = glob('*.csv')
-    for lcnt, f in enumerate(l_csv_files):
-        print(lcnt, f)
-    str_input = input('>>> ')
-    while True:
-        if re_cd.findall(str_input):
-            try:
-                os.path.chdir(str_input[3:].strip())
-                break
-            except:
-                print('Command is wrong. :', str_input)
-                break
-        try:
-            if int(str_input) < len(l_csv_files):
-                int_fileno = int(str_input)
-                print('선택된 번호:', int_fileno)
-                flag_exit = True    # string입력 while문 탈출을 위한 flag On
-                break
-        except:
-            print('Command is wrong. :', str_input)
-            break
-    if flag_exit == True:
-        break
-
-filename = l_csv_files[int_fileno]
-df_data = pd.read_csv(filename)
-print(df_data.head(3))
-# df_data = pd.read_csv('tmp_humanlabeling.csv')
-
-=======
 # -*- coding: utf-8 -*-
->>>>>>> b4dc8e39d7b6accae16ed244fc99dbcdcd8cc747
 
 # - 프로그램 흐름 -
 # 작업자 입력
@@ -59,100 +17,6 @@ from datetime import timedelta
 
 # 작업자 입력
 hm_worker = input('작업자의 성함을 입력하세요. (예: DjPark, MikePK, Kbrow)\n>>>')
-<<<<<<< HEAD
-hm_date = now.strftime("%Y/%m/%d/ %H:%M:%S")
-print('*'*100)
-print('''작업을 시작하려는 데이터프레임의 인덱스 번호를 입력하세요.\n
-    ! 를 입력하면 작업이 안된 인덱스를 선택할 수 있습니다.''')
-print('-'*100)
-print('상위 3개 작업 미처리(np.nan)')
-print(df_data[df_data['human_label'].isna() == True].iloc[:3])
-
-flag_exit = False    # 이중 루프를 벗어나기위한 flag 초기화
-while True:
-    str_input = input('>>> ')
-    if str_input == '!':
-        for lcnt, (crawl_idx, row) in enumerate(df_data.iterrows()):
-            if row.isna()['human_label'] == True:
-                int_idx_start = lcnt    # 최상단의 np.nan를 찾음
-                flag_exit = True
-                break
-        if flag_exit == True:
-            break
-    else:
-        try:
-            int_idx_start = int(str_input.strip())
-            break
-        except:
-            print('잘못된 입력 형식입니다.')
-print('작업 시작 인덱스 :', int_idx_start)
-# for lcnt, (_, row) in enumerate(df_data.iterrows()):#['qus']):
-#     if lcnt < int_idx_start:
-#         continue
- 
-str_help_0 = '라벨을 입력하세요. / # : 종료 \n(예 : 1,3, 5 >>> [1,3,5])'
-str_help_1 = 'Enter : 다음 row / b : 이전 row / 정수 입력 : 해당 인덱스로 이동 / # : 작업 종료'
-def f_key_thread(str_help, mode):
-    # 다음 행으로 넘어가기 위한 키입력 처리
-    global lcnt, str_input
-    while True:#str_input != '':
-        print(str_help)
-        str_input = input('>>>')
-        str_input = str_input.strip()
-        if str_input == '':
-            break
-        elif str_input == '#':
-            break
-        if mode == 'input':
-            if re_labels.match(str_input):
-                break
-            # else: 잘못된 입력
-        elif mode == 'function':
-            if re_int.match(str_input) != None:
-                print('입력된 인덱스 {}(으)로 이동합니다.'.format(int(str_input)))
-                lcnt = int(str_input) -1
-                break
-            elif str_input == 'b':
-                lcnt = (lcnt -1) -1
-                break
-        else:
-            print('잘못된 입력입니다.')
-    # return lcnt
-
-
-
-lcnt = int_idx_start -1    # -1의 처리 이유는 while문 시작시에 += 1을 하기 때문.
-re_int = re.compile('\d+')
-re_labels = re.compile('(\d+\s*,\s*)*(\d+\s*)')
-# print(re_labels.match('1,2, 3'))    # ok
-# print(re_labels.match('3 '))    # ok
-while True:
-    lcnt += 1
-    row = df_data.iloc[lcnt]
-    print('*'*40, 'qus', '*'*40)
-    print('lcnt:', lcnt)
-    crawl_idx = row['index']
-    print('crawl_idx:', crawl_idx)
-    qus = row['qus']
-    print(qus)
-    print('human_label:', row['human_label'])
-    print('-'*100)
-    print(str_help_labels)
-    # print()
-    # inp = input('>>>')
-    # if inp == '#':
-    #     break
-    # elif inp == '':    # 다음 row로 넘어감
-    #     continue
-    f_key_thread(str_help_0, 'input')
-
-    l_labels = str_input.split(',')
-    print('l_labels:', l_labels)
-    l_labels = sorted(list(map(int, l_labels)))
-    print('converted in to list<int> :', l_labels)
-    df_data.loc[crawl_idx, 'human_label'] = str(l_labels)
-    df_data.loc[crawl_idx, 'hm_worker'] = hm_worker
-=======
 
 # 파일 선택
 str_tmp_filename = 'tmp.csv'    # 임시 저장용 csv 파일 이름 초기화
@@ -275,7 +139,6 @@ def f_key_proc(vstr_input):
 		print('잘못된 입력입니다.')
 		int_cur -= 1    # row를 이동하지 않기 위해 -=1 처리함
 
->>>>>>> b4dc8e39d7b6accae16ed244fc99dbcdcd8cc747
 
 # 메인 함수
 print('*'*100)
@@ -295,19 +158,5 @@ while True:
 	print(df_data.loc[int_cur, 'qus'])
 	print('human_label:',df_data.loc[int_cur, 'human_label'])
 
-<<<<<<< HEAD
-    # 해당 row입력 마다 임시파일로 저장
-    df_data.to_csv('tmp_humanlabeling.csv', index=False)
-    print('saved as tmp_humanlabeling.csv')
-
-    # lcnt 업데이트 및 키입력 대기
-    f_key_thread(str_help_1, 'function')
-
-    if str_input == '#':
-            break
-    
-    clear_output()
-=======
 	str_input = input('>>> ').strip()
 	f_key_proc(str_input)
->>>>>>> b4dc8e39d7b6accae16ed244fc99dbcdcd8cc747
