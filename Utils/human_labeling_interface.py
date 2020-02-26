@@ -101,7 +101,9 @@ def f_key_proc(vstr_input):
 	elif vstr_input == 'n':
 		pass
 	elif re_label.match(vstr_input):
-		l_inp_label = re_label_split.sub(' ', re_label.match(vstr_input).string).split()
+		l_inp_label = re_label_split.sub(' ', 
+									re_label.match(vstr_input).string).split()
+		l_inp_label = sorted(l_inp_label)
 		print('l_inp_label:', l_inp_label)
 		print('Enter : 저장 후 다음으로 이동 / 그외 : 취소')
 		str_input = input('>>> ')
