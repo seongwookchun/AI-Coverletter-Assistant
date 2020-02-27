@@ -131,7 +131,7 @@ def thread_func(date_start,i,url,code):
         res = requests.get(next_url)
         soup = BeautifulSoup(res.text,'html.parser')
         selector = soup.select('ul#section_list dt.title_cr a')      
-        url_lists+= [i for i in url_func(selector)]      
+        url_lists= [i for i in url_func(selector)]      
         next_page = soup.select('div#CPContent_pager a.next')
         
         # page number 추가 2020.02.27
@@ -147,9 +147,10 @@ def jtbc_news(date_start,date_end,path):
     """
     crawling jtbc news data by category news from politics to weather 
 
-    # date_start : 시작 날짜. 최신 날짜부터 시작  //입력 예) '2020,02,25'
-    # date_end : 끝나는 날짜. 가장 나중 날짜 //입력 예) '2020,02,24'
-    # scode: 뉴스 기사 카테고리 ex) 날씨,경제 등
+    # date_start : 시작 날짜. 최신 날짜부터 시작  //입력 예) '2020,02,25'  
+    # date_end : 끝나는 날짜. 가장 나중 날짜 //입력 예) '2020,02,24'  
+    # path : 파일을 생성할 위치와 csv 파일명  
+    # scode: 뉴스 기사 카테고리 ex) 날씨,경제 등  
 
     """
     section_scode = list(np.arange(10,90,10))
