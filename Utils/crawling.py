@@ -12,6 +12,8 @@ from time import time
 import concurrent.futures
 import numpy as np
 
+import os.path
+
 
 
 answer_list = []
@@ -101,6 +103,8 @@ def multi_thread(date_diff,date_start,url,code):
 def thread_func(date_start,i,url,code):
     
     url_lists = []
+    pgi_dict ={}
+    date_dict= {}
     
     datestr = (date_start-timedelta(i)).strftime('%Y%m%d')
     params = {'pdate':datestr,'scode':code}
@@ -109,22 +113,45 @@ def thread_func(date_start,i,url,code):
     selector = soup.select('ul#section_list dt.title_cr a')   
     next_page= soup.select('div#CPContent_pager a.next')
     url_lists += [i for i in url_func(selector)]
+    
+    # pgi(page number) 추가 2020.02.27
+    pgi = soup.select_one('div#CPContent_pager span.num.selected')
+    
+    if pgi is None:
+        pgi=1
+        pgi_dict[pgi]=url_lists
+
+    else:
+        pgi_dict[int(pgi.text)] = url_lists
+
 
     while len(next_page) >0:
+        
         next_url = 'http://news.jtbc.joins.com/' + next_page[0].attrs['href']
         res = requests.get(next_url)
         soup = BeautifulSoup(res.text,'html.parser')
         selector = soup.select('ul#section_list dt.title_cr a')      
         url_lists+= [i for i in url_func(selector)]      
         next_page = soup.select('div#CPContent_pager a.next')
-    
-    return url_lists
+        
+        # page number 추가 2020.02.27
+        pgi = soup.select_one('div#CPContent_pager span.num.selected')
+        pgi_dict[int(pgi.text)] = url_lists
+
+    # 날짜 데이터 추가 2020.02.27
+    date_dict[datestr] = pgi_dict
+    return date_dict
 
 
 def jtbc_news(date_start,date_end,path):
-    # date_start : 시작 날짜. 최신 날짜부터 시작  /입력 예) '2020,02,25'
-    # date_end : 끝나는 날짜. 가장 나중 날짜 /입력 예) '2020,02,24'
+    """
+    crawling jtbc news data by category news from politics to weather 
+
+    # date_start : 시작 날짜. 최신 날짜부터 시작  //입력 예) '2020,02,25'
+    # date_end : 끝나는 날짜. 가장 나중 날짜 //입력 예) '2020,02,24'
     # scode: 뉴스 기사 카테고리 ex) 날씨,경제 등
+
+    """
     section_scode = list(np.arange(10,90,10))
     global path2
     path2 = path
@@ -149,35 +176,55 @@ def jtbc_news(date_start,date_end,path):
 
             for j in i.result():
                 result = j.result()
-                result1+=result
+
+                result1.append(result)
     
             section_url[code]= result1
-    
+
     print(round(time() - time_i,2),'초')
-    
+    # print(section_url)
+
+    """ section_url 형식 :
+     {10: [{'20200224': {1: ['http://news.jtbc.joins.com//html/520/NB11936520.html', 
+     {scode : [{날짜 : {page number : [url ] } } } } ]
+     """
+
     return title_text_split(section_url)
 
 
-def jtbc_signal_handler(signal,frame):
+
+
+#긴급정지 저장 function 잠시 수정.
+# def jtbc_signal_handler(signal,frame):
     
-    df = pd.DataFrame(code_list,columns=['section'])
-    df['title'] = title_list     
-    df['content'] = content_list
-    df.to_csv(path2)
-    print('jtbc_news_crawling stop and save about data completed until now ', '*'*100)
-    sys.exit(0)
+#     df = pd.DataFrame(code_list,columns=['section'])
+#     df['title'] = title_list     
+#     df['content'] = content_list
+#     df.to_csv(path2)
+#     print('jtbc_news_crawling stop and save about data completed until now ', '*'*100)
+#     sys.exit(0)
 
-def title_txt_multi_thread(code,urls):
+# 5층 Thread function
+def title_txt_multi_thread1(code,date_list):
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        return [executor.submit(title_content_thread,code,url) for url in urls]
+        return [executor.submit(title_txt_multi_thread2,code,i) for i in date_list]
+
+def title_txt_multi_thread2(code,date_dict):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        return [executor.submit(title_txt_multi_thread3,code,date,p_dict) for date,p_dict in date_dict.items()]
+
+def title_txt_multi_thread3(code,date,p_dict):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        return [executor.submit(title_txt_multi_thread4,code,date,page,urls) for page,urls in p_dict.items()]
 
 
+def title_txt_multi_thread4(code,date,page,urls):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        return [executor.submit(title_content_thread,code,url,date,page) for url in urls]
 
-def title_content_thread(code,url):
-    title_list=[]
-    content_list=[]
-    code_list=[]
-
+# 개별 뉴스 url에서 title,content 추출하는 Thread function
+def title_content_thread(code,url,date,page):
+   
     section_mapping = {0:'속보',
                        10:'정치',
                        20:'경제',
@@ -186,8 +233,7 @@ def title_content_thread(code,url):
                        50:'문화',
                        60:'연예',
                        70:'스포츠',
-                       80:'날씨'
-    }
+                       80:'날씨' }
     
     res = requests.get(url)
     soup = BeautifulSoup(res.content,'html.parser')
@@ -195,39 +241,38 @@ def title_content_thread(code,url):
     title = soup.select_one('div.title h3').text
     content = soup.select_one('div.article_content').text
 
-    title_list.append(title)
-    content_list.append(content)
-    code_list.append(section_mapping[code])  
-    
-    return title_list,content_list,code_list
+    return title,content,section_mapping[code],date,page
       
     
 def title_text_split(section_url):
     time_i = time()
-    signal.signal(signal.SIGINT, jtbc_signal_handler)
-
-    # global title_list
-    title_list = []
-    # global content_list
-    content_list =[]
-    # global code_list
-    code_list = []
+   
     with concurrent.futures.ThreadPoolExecutor() as executor:
-  
-        future = [executor.submit(title_txt_multi_thread,code,urls) for code,urls in section_url.items()]
+        future = [executor.submit(title_txt_multi_thread1,code,urls) for code,urls in section_url.items()]
 
+    # Thread 리턴
     for i in future:
         for j in i.result():
-            title,content,code= j.result()
-            title_list+=title
-            content_list+=content
-            code_list+=code
+            for k in j.result():
+                for y in k.result():
+                    for z in y.result():
+            
+                        title,content,code,date,page = z.result()
+                        
+                        # 기존 데이터가 존재하면 데이터 추가 없다면 생성
+                        if os.path.exists(path2):
+                            df = pd.read_csv(path2)
+                            df = df.append({'section':code,'title':title,'content':content,'date':date,'page_num':page},ignore_index=True)
+                            df.to_csv(path2,index=False)
+                        
+                        else:
+                            df= pd.DataFrame(columns=['section','title','content','date','page_num'])
+                            df= df.append({'section':code,'title':title,'content':content,'date':date,'page_num':page},ignore_index=True)
+                            df.to_csv(path2,index=False)
+                
+                    
 
-
-    df = pd.DataFrame(code_list,columns=['section'])
-    df['title'] = title_list
-    df['content'] = content_list
-    df.to_csv(path2)
+        
     print(round(time() - time_i,2),'초')
     
     return df
