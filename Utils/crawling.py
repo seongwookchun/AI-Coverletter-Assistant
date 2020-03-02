@@ -184,7 +184,7 @@ def jtbc_news(date_start,date_end,path):
     
             section_url[code]= result1
 
-    print(round(time() - time_i,2),'초')
+    print('url 크롤링까지 ',round(time() - time_i,2),'초')
     # print(section_url)
 
     """ section_url 형식 :
@@ -278,7 +278,7 @@ def title_content_thread(code,url,date,page):
                        70:'스포츠',
                        80:'날씨' }
     
-    
+    print('뉴스 제목,기사 추출 시작')
     res = requests.get(url)
     soup = BeautifulSoup(res.content,'html.parser')
 
