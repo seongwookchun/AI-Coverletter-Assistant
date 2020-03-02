@@ -287,15 +287,15 @@ def title_content_thread(code,url,date,page):
     
     lock.acquire()
     try:
-        if os.path.exists(path2+'jtbc_iter.csv'):
-            df = pd.read_csv(path2+'jtbc_iter.csv')
+        if os.path.exists(path2):
+            df = pd.read_csv(path2)
             df = df.append({'section':section_mapping[code],'title':"{}".format(title),'content':'{}'.format(content),'date':date,'page_num':page},ignore_index=True)
-            df.to_csv(path2+'jtbc_iter.csv',index=False)
+            df.to_csv(path2,index=False)
         
         else:
             df= pd.DataFrame(columns=['section','title','content','date','page_num'])
             df= df.append({'section':section_mapping[code],'title':"{}".format(title),'content':'{}'.format(content),'date':date,'page_num':page},ignore_index=True)
-            df.to_csv(path2+'jtbc_iter.csv',index=False)
+            df.to_csv(path2,index=False)
     finally:
         lock.release()
     
@@ -320,5 +320,5 @@ def title_text_split(section_url):
         
     print(round(time() - time_i,2),'초')
     
-    # return df
+    return df
         
